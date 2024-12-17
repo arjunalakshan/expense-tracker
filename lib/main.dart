@@ -1,3 +1,4 @@
+import 'package:expense_tracker/views/on_boarding/on_boarding_views.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,21 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: GoogleFonts.poppins().fontFamily,
       ),
-      home: Scaffold(
-        appBar: AppBar(),
-        body: const Center(
-          child: Column(
-            children: [
-              Text(
-                "Hellow World",
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      home: OnBoardingViews(),
     );
   }
 }
