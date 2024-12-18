@@ -1,5 +1,7 @@
+import 'package:expense_tracker/services/user_data_store_service.dart';
 import 'package:expense_tracker/utils/colors.dart';
 import 'package:expense_tracker/utils/measurements.dart';
+import 'package:expense_tracker/views/home/home_view.dart';
 import 'package:expense_tracker/widgets/shared/custom_button.dart';
 import 'package:flutter/material.dart';
 
@@ -63,6 +65,7 @@ class _UserDetailsFormState extends State<UserDetailsForm> {
                         if (value!.isEmpty) {
                           return "Please enter Name";
                         }
+                        return null;
                       },
                       decoration: InputDecoration(
                         hintText: "Name",
@@ -199,12 +202,38 @@ class _UserDetailsFormState extends State<UserDetailsForm> {
                       height: defaultPadding * 2,
                     ),
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         if (_formHandlerKey.currentState!.validate()) {
-                          print(_inputNameController.text);
-                          print(_inputEmailController.text);
-                          print(_inputPasswordController.text);
-                          print(_inputConfirmPasswordController.text);
+                          if (isRemeberChecked) {
+                            //*Store user entered data in local storage
+                            await UserDataStoreService.storeUserData(
+                              userName: _inputNameController.text,
+                              userEmail: _inputEmailController.text,
+                              userPwd: _inputPasswordController.text,
+                              conPwd: _inputConfirmPasswordController.text,
+                              context: context,
+                            );
+
+                            //*Navigete to next view after storing data
+                            if (context.mounted) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const HomeView(),
+                                ),
+                              );
+                            }
+                          } else {
+                            //*Navigete to next view without storing data
+                            if (context.mounted) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const HomeView(),
+                                ),
+                              );
+                            }
+                          }
                         }
                       },
                       child: const CustomButton(
