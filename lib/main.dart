@@ -1,4 +1,5 @@
 import 'package:expense_tracker/views/on_boarding/on_boarding_views.dart';
+import 'package:expense_tracker/views/user_form/user_details_form.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: GoogleFonts.poppins().fontFamily,
       ),
-      home: OnBoardingViews(),
+      home: UserDetailsForm(),
     );
   }
 }
