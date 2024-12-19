@@ -1,7 +1,7 @@
 import 'package:expense_tracker/services/user_data_store_service.dart';
 import 'package:expense_tracker/utils/colors.dart';
 import 'package:expense_tracker/utils/measurements.dart';
-import 'package:expense_tracker/views/home/home_view.dart';
+import 'package:expense_tracker/views/navigation_route/navigation_route_view.dart';
 import 'package:expense_tracker/widgets/shared/custom_button.dart';
 import 'package:flutter/material.dart';
 
@@ -222,7 +222,8 @@ class _UserDetailsFormState extends State<UserDetailsForm> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const HomeView(),
+                                  builder: (context) =>
+                                      const NavigationRouteView(),
                                 ),
                               );
                             }
@@ -232,7 +233,8 @@ class _UserDetailsFormState extends State<UserDetailsForm> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const HomeView(),
+                                  builder: (context) =>
+                                      const NavigationRouteView(),
                                 ),
                               );
                             }
