@@ -92,6 +92,7 @@ class _UserDetailsFormState extends State<UserDetailsForm> {
                         if (value!.isEmpty) {
                           return "Please enter Email";
                         }
+                        return null;
                       },
                       decoration: InputDecoration(
                         hintText: "Email",
@@ -118,6 +119,7 @@ class _UserDetailsFormState extends State<UserDetailsForm> {
                         if (value!.isEmpty) {
                           return "Please enter Password";
                         }
+                        return null;
                       },
                       obscureText: true,
                       decoration: InputDecoration(
@@ -149,6 +151,7 @@ class _UserDetailsFormState extends State<UserDetailsForm> {
                         if (value!.isEmpty) {
                           return "Please re-enter Password";
                         }
+                        return null;
                       },
                       obscureText: true,
                       decoration: InputDecoration(
