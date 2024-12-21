@@ -20,9 +20,9 @@ class _NavigationRouteViewState extends State<NavigationRouteView> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> mainViews = [
+      AddNewView(),
       HomeView(),
       TransactionView(),
-      AddNewView(),
       BudgetView(),
       ProfileView(),
     ];
