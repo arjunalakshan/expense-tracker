@@ -12,7 +12,7 @@ class _AddNewViewState extends State<AddNewView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Transaction View"),
+        title: Text("Add new View"),
       ),
     );
   }
