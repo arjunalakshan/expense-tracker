@@ -1,10 +1,18 @@
+import 'package:expense_tracker/model/expense_model.dart';
+import 'package:expense_tracker/model/income_model.dart';
 import 'package:expense_tracker/utils/colors.dart';
 import 'package:expense_tracker/utils/measurements.dart';
 import 'package:expense_tracker/widgets/add_new_widgets/income_expense_form.dart';
 import 'package:flutter/material.dart';
 
 class AddNewView extends StatefulWidget {
-  const AddNewView({super.key});
+  final Function(ExpenseModel) addExpense;
+  final Function(IncomeModel) addIncome;
+  const AddNewView({
+    super.key,
+    required this.addExpense,
+    required this.addIncome,
+  });
 
   @override
   State<AddNewView> createState() => _AddNewViewState();
@@ -153,6 +161,8 @@ class _AddNewViewState extends State<AddNewView> {
                 ),
                 child: IncomeExpenseForm(
                   currentSubmenuIndex: _selectedSubMenuIndex,
+                  addExpense: widget.addExpense,
+                  addIncome: widget.addIncome,
                 ),
               ),
             ],

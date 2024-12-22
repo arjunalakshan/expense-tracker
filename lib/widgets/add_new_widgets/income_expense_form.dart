@@ -1,5 +1,7 @@
 import 'package:expense_tracker/model/expense_model.dart';
 import 'package:expense_tracker/model/income_model.dart';
+import 'package:expense_tracker/services/expense_type_service.dart';
+import 'package:expense_tracker/services/income_type_service.dart';
 import 'package:expense_tracker/utils/colors.dart';
 import 'package:expense_tracker/utils/measurements.dart';
 import 'package:expense_tracker/widgets/shared/custom_button.dart';
@@ -8,9 +10,13 @@ import 'package:intl/intl.dart';
 
 class IncomeExpenseForm extends StatefulWidget {
   final int currentSubmenuIndex;
+  final Function(ExpenseModel) addExpense;
+  final Function(IncomeModel) addIncome;
   const IncomeExpenseForm({
     super.key,
     required this.currentSubmenuIndex,
+    required this.addExpense,
+    required this.addIncome,
   });
 
   @override
@@ -50,7 +56,7 @@ class _IncomeExpenseFormState extends State<IncomeExpenseForm> {
                 ? ExpenseCategory.values
                     .map(
                       (category) => DropdownMenuItem(
-                        value: category,
+                        value: category.index,
                         child: Text(category.name),
                       ),
                     )
@@ -58,7 +64,7 @@ class _IncomeExpenseFormState extends State<IncomeExpenseForm> {
                 : IncomeCategory.values
                     .map(
                       (category) => DropdownMenuItem(
-                        value: category,
+                        value: category.index,
                         child: Text(category.name),
                       ),
                     )
@@ -290,7 +296,69 @@ class _IncomeExpenseFormState extends State<IncomeExpenseForm> {
             height: 16,
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () async {
+              if (widget.currentSubmenuIndex == 0) {
+                //* Get the list of expenses from the shared preferences
+                List<ExpenseModel> expenseModelList =
+                    await ExpenseTypeService().getExpense();
+
+                //* Create a new expense model
+                ExpenseModel expenseModel = ExpenseModel(
+                  id: expenseModelList.length + 1,
+                  title: _titleController.text,
+                  category: _selectedExpenseCategory,
+                  amount: _amountController.text.isEmpty
+                      ? 0
+                      : double.parse(_amountController.text),
+                  date: _selectedDate,
+                  time: DateTime(
+                    _selectedDate.year,
+                    _selectedDate.month,
+                    _selectedDate.day,
+                    _selectedTime.hour,
+                    _selectedTime.minute,
+                  ),
+                  note: _noteController.text,
+                );
+
+                widget.addExpense(expenseModel);
+
+                //* Clear the input fields after adding the expense
+                _titleController.clear();
+                _noteController.clear();
+                _amountController.clear();
+              } else {
+                //* Get the list of incomes from the shared preferences
+                List<IncomeModel> incomeModelList =
+                    await IncomeTypeService().getIncomeList();
+
+                //* Create a new income model
+                IncomeModel incomeModel = IncomeModel(
+                  id: incomeModelList.length + 1,
+                  title: _titleController.text,
+                  category: _selectedIncomeCategory,
+                  amount: _amountController.text.isEmpty
+                      ? 0
+                      : double.parse(_amountController.text),
+                  date: _selectedDate,
+                  time: DateTime(
+                    _selectedDate.year,
+                    _selectedDate.month,
+                    _selectedDate.day,
+                    _selectedTime.hour,
+                    _selectedTime.minute,
+                  ),
+                  note: _noteController.text,
+                );
+
+                widget.addIncome(incomeModel);
+
+                //* Clear the input fields after adding the income
+                _titleController.clear();
+                _noteController.clear();
+                _amountController.clear();
+              }
+            },
             child: CustomButton(
               buttonText: "Add",
               buttonBgColor: widget.currentSubmenuIndex == 0 ? kRed : kGreen,
