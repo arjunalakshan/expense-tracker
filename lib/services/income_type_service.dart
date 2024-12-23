@@ -41,7 +41,7 @@ class IncomeTypeService {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text("Income added successfully"),
-            backgroundColor: kBlack,
+            backgroundColor: kMainColor,
           ),
         );
       }
@@ -71,5 +71,57 @@ class IncomeTypeService {
           .toList();
     }
     return incomeModelList;
+  }
+
+  //* Delete income from shared preferences
+  Future<void> deleteIncome(int index, BuildContext context) async {
+    try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+
+      //* Get the list of incomes from shared preferences
+      List<String>? incomeListString = sharedPreferences.getStringList(typeKey);
+
+      //* Convert available income to List<ExpenseModel>
+      List<IncomeModel> incomeModelList = [];
+      if (incomeListString != null) {
+        incomeModelList = incomeListString
+            .map((e) => IncomeModel.fromJson(json.decode(e)))
+            .toList();
+      }
+
+      //* Remove the income from the list
+      incomeModelList.removeWhere((element) => element.id == index);
+
+      //* Convert List<ExpenseModel> to List<String>
+      List<String> incomeStringList =
+          incomeModelList.map((e) => json.encode(e.toJson())).toList();
+
+      //* Save the list in shared preference
+      await sharedPreferences.setStringList(
+        typeKey,
+        incomeStringList,
+      );
+
+      //* Show success message
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Income deleted successfully"),
+            backgroundColor: kMainColor,
+          ),
+        );
+      }
+    } catch (error) {
+      //* Show error message
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Failed to delete income"),
+            backgroundColor: kRed,
+          ),
+        );
+      }
+    }
   }
 }

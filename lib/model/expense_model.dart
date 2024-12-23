@@ -11,20 +11,40 @@ enum ExpenseCategory {
 
 //* Map to store the Expense Category and its corresponding Icon
 Map<ExpenseCategory, Icon> expenseCategoryToIcon = {
-  ExpenseCategory.shopping: const Icon(Icons.shopping_cart_rounded),
-  ExpenseCategory.subscription: const Icon(Icons.subscriptions_rounded),
-  ExpenseCategory.food: const Icon(Icons.fastfood_rounded),
-  ExpenseCategory.health: const Icon(Icons.local_hospital_rounded),
-  ExpenseCategory.transport: const Icon(Icons.directions_bus_rounded),
+  ExpenseCategory.shopping: const Icon(
+    Icons.shopping_cart_rounded,
+    color: Colors.red,
+    size: 30,
+  ),
+  ExpenseCategory.subscription: const Icon(
+    Icons.subscriptions_rounded,
+    color: Colors.blue,
+    size: 30,
+  ),
+  ExpenseCategory.food: const Icon(
+    Icons.fastfood_rounded,
+    color: Colors.orange,
+    size: 30,
+  ),
+  ExpenseCategory.health: const Icon(
+    Icons.local_hospital_rounded,
+    color: Colors.purple,
+    size: 30,
+  ),
+  ExpenseCategory.transport: const Icon(
+    Icons.directions_bus_rounded,
+    color: Colors.green,
+    size: 30,
+  ),
 };
 
 //* Map to store the Expense Category and its corresponding Color
 Map<ExpenseCategory, Color> expenseCategoryToColor = {
   ExpenseCategory.shopping: Colors.red,
   ExpenseCategory.subscription: Colors.blue,
-  ExpenseCategory.food: Colors.green,
+  ExpenseCategory.food: Colors.orange,
   ExpenseCategory.health: Colors.purple,
-  ExpenseCategory.transport: Colors.orange,
+  ExpenseCategory.transport: Colors.green,
 };
 
 class ExpenseModel {

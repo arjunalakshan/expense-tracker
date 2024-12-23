@@ -48,7 +48,6 @@ class _HomeViewState extends State<HomeView> {
                   //* Sub Column for Overview section
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
                           width: 40,
@@ -69,6 +68,9 @@ class _HomeViewState extends State<HomeView> {
                             ),
                           ),
                         ),
+                        const SizedBox(
+                          width: 16,
+                        ),
                         Text(
                           "Welcome $userName",
                           style: const TextStyle(
@@ -77,6 +79,7 @@ class _HomeViewState extends State<HomeView> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
+                        const Spacer(),
                         IconButton(
                           onPressed: () {},
                           icon: const Icon(

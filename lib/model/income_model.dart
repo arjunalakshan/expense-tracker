@@ -11,17 +11,33 @@ enum IncomeCategory {
 
 //* Map to store the Income Category and its corresponding Icon
 Map<IncomeCategory, Icon> incomeCategoryToIcon = {
-  IncomeCategory.freelance: const Icon(Icons.laptop_mac_rounded),
-  IncomeCategory.salary: const Icon(Icons.money_rounded),
-  IncomeCategory.passive: const Icon(Icons.arrow_circle_down_rounded),
-  IncomeCategory.sales: const Icon(Icons.sell_rounded),
+  IncomeCategory.freelance: const Icon(
+    Icons.laptop_mac_rounded,
+    color: kOrange,
+    size: 30,
+  ),
+  IncomeCategory.salary: const Icon(
+    Icons.money_rounded,
+    color: kGreen,
+    size: 30,
+  ),
+  IncomeCategory.passive: const Icon(
+    Icons.arrow_circle_down_rounded,
+    color: Colors.blueGrey,
+    size: 30,
+  ),
+  IncomeCategory.sales: const Icon(
+    Icons.sell_rounded,
+    color: kYellow,
+    size: 30,
+  ),
 };
 
 //* Map to store the Income Category and its corresponding Color
 Map<IncomeCategory, Color> incomeCategoryToColor = {
   IncomeCategory.freelance: kOrange,
   IncomeCategory.salary: kGreen,
-  IncomeCategory.passive: kBlack,
+  IncomeCategory.passive: Colors.blueGrey,
   IncomeCategory.sales: kYellow,
 };
 

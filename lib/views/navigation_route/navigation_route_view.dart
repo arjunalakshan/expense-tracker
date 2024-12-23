@@ -41,6 +41,16 @@ class _NavigationRouteViewState extends State<NavigationRouteView> {
     });
   }
 
+  //* Delete expense
+  void deleteExpense(ExpenseModel expense) {
+    ExpenseTypeService().deleteExpense(expense.id, context);
+
+    //* Update the state
+    setState(() {
+      expenseList.remove(expense);
+    });
+  }
+
   //* Fetch income from shared preference
   void fetchIncomeFromSharedPreference() async {
     List<IncomeModel> incomeList = await IncomeTypeService().getIncomeList();
@@ -59,6 +69,16 @@ class _NavigationRouteViewState extends State<NavigationRouteView> {
     });
   }
 
+  //* Delete income
+  void deleteIncome(IncomeModel income) {
+    IncomeTypeService().deleteIncome(income.id, context);
+
+    //* Update the state
+    setState(() {
+      incomeList.remove(income);
+    });
+  }
+
   //* Initialize the state
   @override
   void initState() {
@@ -71,7 +91,12 @@ class _NavigationRouteViewState extends State<NavigationRouteView> {
   Widget build(BuildContext context) {
     final List<Widget> mainViews = [
       HomeView(),
-      TransactionView(),
+      TransactionView(
+        expenseList: expenseList,
+        onDeleteExpense: deleteExpense,
+        incomeList: incomeList,
+        onDeleteIncome: deleteIncome,
+      ),
       AddNewView(
         addExpense: addNewExpense,
         addIncome: addNewIncome,

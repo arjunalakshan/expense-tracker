@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:expense_tracker/model/expense_model.dart';
 import 'package:expense_tracker/model/income_model.dart';
 import 'package:expense_tracker/services/expense_type_service.dart';
@@ -55,17 +57,17 @@ class _IncomeExpenseFormState extends State<IncomeExpenseForm> {
             items: widget.currentSubmenuIndex == 0
                 ? ExpenseCategory.values
                     .map(
-                      (category) => DropdownMenuItem(
-                        value: category.index,
-                        child: Text(category.name),
+                      (expenseCategory) => DropdownMenuItem(
+                        value: expenseCategory,
+                        child: Text(expenseCategory.name),
                       ),
                     )
                     .toList()
                 : IncomeCategory.values
                     .map(
-                      (category) => DropdownMenuItem(
-                        value: category.index,
-                        child: Text(category.name),
+                      (incomeCategory) => DropdownMenuItem(
+                        value: incomeCategory,
+                        child: Text(incomeCategory.name),
                       ),
                     )
                     .toList(),
@@ -74,6 +76,7 @@ class _IncomeExpenseFormState extends State<IncomeExpenseForm> {
                 widget.currentSubmenuIndex == 0
                     ? _selectedExpenseCategory = value as ExpenseCategory
                     : _selectedIncomeCategory = value as IncomeCategory;
+                log(_selectedExpenseCategory.toString());
               });
             },
             decoration: InputDecoration(
@@ -320,7 +323,7 @@ class _IncomeExpenseFormState extends State<IncomeExpenseForm> {
                   ),
                   note: _noteController.text,
                 );
-
+                log(_selectedExpenseCategory.toString());
                 widget.addExpense(expenseModel);
 
                 //* Clear the input fields after adding the expense
