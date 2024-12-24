@@ -124,4 +124,31 @@ class IncomeTypeService {
       }
     }
   }
+
+  //* Clear income data
+  Future<void> clearIncomeData(BuildContext context) async {
+    try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      await sharedPreferences.remove(typeKey);
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Income cleared"),
+            backgroundColor: kMainColor,
+          ),
+        );
+      }
+    } on Exception {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Failed to clear income"),
+            backgroundColor: kRed,
+          ),
+        );
+      }
+    }
+  }
 }

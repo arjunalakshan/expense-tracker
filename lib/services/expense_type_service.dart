@@ -143,4 +143,31 @@ class ExpenseTypeService {
       }
     }
   }
+
+  //* Clear expense data
+  Future<void> clearExpenseData(BuildContext context) async {
+    try {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      await sharedPreferences.remove(typeKey);
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Expense cleared"),
+            backgroundColor: kMainColor,
+          ),
+        );
+      }
+    } on Exception {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Failed to clear expense"),
+            backgroundColor: kRed,
+          ),
+        );
+      }
+    }
+  }
 }
