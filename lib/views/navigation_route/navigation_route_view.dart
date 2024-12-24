@@ -51,6 +51,22 @@ class _NavigationRouteViewState extends State<NavigationRouteView> {
     });
   }
 
+  //* Get total expense by categories
+  Map<ExpenseCategory, double> calculateExpenseTotalWithCategory() {
+    Map<ExpenseCategory, double> categoryWithTotal = {
+      ExpenseCategory.food: 0,
+      ExpenseCategory.health: 0,
+      ExpenseCategory.shopping: 0,
+      ExpenseCategory.subscription: 0,
+      ExpenseCategory.transport: 0,
+    };
+    for (ExpenseModel expenseModel in expenseList) {
+      categoryWithTotal[expenseModel.category] =
+          categoryWithTotal[expenseModel.category]! + expenseModel.amount;
+    }
+    return categoryWithTotal;
+  }
+
   //* Fetch income from shared preference
   void fetchIncomeFromSharedPreference() async {
     List<IncomeModel> incomeList = await IncomeTypeService().getIncomeList();
@@ -79,6 +95,21 @@ class _NavigationRouteViewState extends State<NavigationRouteView> {
     });
   }
 
+  //* Get total income by categories
+  Map<IncomeCategory, double> calculateIncomeTotalWithCategory() {
+    Map<IncomeCategory, double> categoryWithTotal = {
+      IncomeCategory.freelance: 0,
+      IncomeCategory.passive: 0,
+      IncomeCategory.salary: 0,
+      IncomeCategory.sales: 0,
+    };
+    for (IncomeModel incomeModel in incomeList) {
+      categoryWithTotal[incomeModel.category] =
+          categoryWithTotal[incomeModel.category]! + incomeModel.amount;
+    }
+    return categoryWithTotal;
+  }
+
   //* Initialize the state
   @override
   void initState() {
@@ -104,7 +135,10 @@ class _NavigationRouteViewState extends State<NavigationRouteView> {
         addExpense: addNewExpense,
         addIncome: addNewIncome,
       ),
-      BudgetView(),
+      BudgetView(
+        expenseCategoryWithTotal: calculateExpenseTotalWithCategory(),
+        incomeCategoryWithTotal: calculateIncomeTotalWithCategory(),
+      ),
       ProfileView(),
     ];
 
