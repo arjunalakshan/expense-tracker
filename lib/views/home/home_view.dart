@@ -1,19 +1,31 @@
+import 'package:expense_tracker/model/expense_model.dart';
+import 'package:expense_tracker/model/income_model.dart';
 import 'package:expense_tracker/services/get_user_data_service.dart';
 import 'package:expense_tracker/utils/colors.dart';
 import 'package:expense_tracker/utils/measurements.dart';
 import 'package:expense_tracker/widgets/home_widgets/income_expense_overview_card.dart';
+import 'package:expense_tracker/widgets/home_widgets/overview_line_chart.dart';
+import 'package:expense_tracker/widgets/transaction_widgets/expense_card.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+  final List<ExpenseModel> expenseList;
+  final List<IncomeModel> incomeList;
+  const HomeView({
+    super.key,
+    required this.expenseList,
+    required this.incomeList,
+  });
 
   @override
   State<HomeView> createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
-  //* Store the username from shared preferences
   String userName = "";
+  double totalIncome = 0;
+  double totalExpense = 0;
+
   @override
   void initState() {
     //* Get username from shared preferences
@@ -22,6 +34,17 @@ class _HomeViewState extends State<HomeView> {
         setState(() {
           userName = value["username"]!;
         });
+      }
+    });
+
+    //* Calculate the total income and expense
+    setState(() {
+      for (var expenseEliment in widget.expenseList) {
+        totalExpense += expenseEliment.amount;
+      }
+
+      for (var incomeElimet in widget.incomeList) {
+        totalIncome += incomeElimet.amount;
       }
     });
     super.initState();
@@ -33,6 +56,7 @@ class _HomeViewState extends State<HomeView> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             //* Main Column
             children: [
               Container(
@@ -100,16 +124,79 @@ class _HomeViewState extends State<HomeView> {
                           title: "Income",
                           leadingIcon: Icons.arrow_downward_rounded,
                           cardBgColor: kGreen,
-                          amount: 2000,
+                          amount: totalIncome,
                         ),
                         IncomeExpenseOverviewCard(
                           title: "Expense",
                           leadingIcon: Icons.arrow_upward_rounded,
                           cardBgColor: kRed,
-                          amount: 2000,
+                          amount: totalExpense,
                         ),
                       ],
                     ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(defaultPadding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Spend frequency",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: kBlack,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    OverviewLineChart(),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    const Text(
+                      "Recent Transactions",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: kBlack,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    widget.expenseList.isEmpty
+                        ? const Text(
+                            "No transactions yet",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: kGrey,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          )
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: widget.expenseList.length,
+                            itemBuilder: (context, index) {
+                              final expense = widget.expenseList[index];
+                              return ExpenseCard(
+                                title: expense.title,
+                                amount: expense.amount,
+                                date: expense.date,
+                                category: expense.category,
+                                note: expense.note,
+                                createdAt: expense.time,
+                              );
+                            },
+                          ),
                   ],
                 ),
               ),

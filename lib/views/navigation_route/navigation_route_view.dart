@@ -90,7 +90,10 @@ class _NavigationRouteViewState extends State<NavigationRouteView> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> mainViews = [
-      HomeView(),
+      HomeView(
+        expenseList: expenseList,
+        incomeList: incomeList,
+      ),
       TransactionView(
         expenseList: expenseList,
         onDeleteExpense: deleteExpense,
