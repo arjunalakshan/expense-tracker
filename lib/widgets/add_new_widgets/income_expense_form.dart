@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:expense_tracker/model/expense_model.dart';
 import 'package:expense_tracker/model/income_model.dart';
 import 'package:expense_tracker/services/expense_type_service.dart';
@@ -39,6 +38,8 @@ class _IncomeExpenseFormState extends State<IncomeExpenseForm> {
   DateTime _selectedDate = DateTime.now();
   TimeOfDay _selectedTime = TimeOfDay.now();
 
+  final _formHandlerKey = GlobalKey<FormState>();
+
   @override
   void dispose() {
     _titleController.dispose();
@@ -50,6 +51,7 @@ class _IncomeExpenseFormState extends State<IncomeExpenseForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formHandlerKey,
       child: Column(
         children: [
           //* DropdownButtonFormField to select the category
@@ -101,6 +103,11 @@ class _IncomeExpenseFormState extends State<IncomeExpenseForm> {
           //* Title input field
           TextFormField(
             controller: _titleController,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "Please enter title";
+              }
+            },
             decoration: InputDecoration(
               labelText: "Title",
               labelStyle: const TextStyle(
@@ -123,6 +130,11 @@ class _IncomeExpenseFormState extends State<IncomeExpenseForm> {
           //* Note input field
           TextFormField(
             controller: _noteController,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "Please enter note";
+              }
+            },
             decoration: InputDecoration(
               labelText: "Note",
               labelStyle: const TextStyle(
@@ -145,6 +157,16 @@ class _IncomeExpenseFormState extends State<IncomeExpenseForm> {
           //* Amount input field with numeric keyboard
           TextFormField(
             controller: _amountController,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return "Please enter amount";
+              }
+              double? amount = double.tryParse(value);
+              if (amount! <= 0) {
+                return "Please enter valid amount";
+              }
+              return null;
+            },
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               labelText: "Amount",
@@ -300,7 +322,8 @@ class _IncomeExpenseFormState extends State<IncomeExpenseForm> {
           ),
           GestureDetector(
             onTap: () async {
-              if (widget.currentSubmenuIndex == 0) {
+              if (widget.currentSubmenuIndex == 0 &&
+                  _formHandlerKey.currentState!.validate()) {
                 //* Get the list of expenses from the shared preferences
                 List<ExpenseModel> expenseModelList =
                     await ExpenseTypeService().getExpense();
@@ -330,7 +353,7 @@ class _IncomeExpenseFormState extends State<IncomeExpenseForm> {
                 _titleController.clear();
                 _noteController.clear();
                 _amountController.clear();
-              } else {
+              } else if (_formHandlerKey.currentState!.validate()) {
                 //* Get the list of incomes from the shared preferences
                 List<IncomeModel> incomeModelList =
                     await IncomeTypeService().getIncomeList();

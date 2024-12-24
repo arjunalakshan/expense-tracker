@@ -71,7 +71,7 @@ class IncomeCard extends StatelessWidget {
                       height: 8,
                     ),
                     SizedBox(
-                      width: 120,
+                      width: 90,
                       child: Text(
                         note,
                         style: const TextStyle(
